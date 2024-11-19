@@ -1,5 +1,6 @@
 import pygame
 import pytmx
+import os
 
 # Initialisation de Pygame
 pygame.init()
@@ -10,8 +11,14 @@ SCREEN_HEIGHT = 600
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pygame.time.Clock()
 
+# Obtenir le répertoire du fichier Python actuel (répertoire racine de ton projet)
+base_dir = os.path.dirname(__file__)
+
+# Chemin relatif vers la carte et les ressources
+MAP_PATH = os.path.join(base_dir, "MAP", "map1 11.14.04.tmx")
+TILESET_PATH = os.path.join(base_dir, "MAP", "tileset_by_evolina_d36bih3.png")
+
 # Chargement de la map
-MAP_PATH = "/Users/lucaspavone/PycharmProjects/ProjetWaremon/MAP/map1 11.14.04.tmx"
 tmx_data = pytmx.load_pygame(MAP_PATH, pixelalpha=True)
 
 def draw_map(screen, tmx_data):
