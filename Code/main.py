@@ -22,11 +22,13 @@ class Game:
 
     def import_assets(self):
         self.tmx_maps = {'map3': load_pygame(join('..', 'data', 'maps', 'map3.tmx'))}
+
         self.overwolrd_frames = {
             'water': import_folder(join('..', 'graphics', 'tilesets', 'water')),
             'cote' : cote_importer(24,12,join('..', 'graphics', 'tilesets', 'cote')),
             'characters': all_character_import('..', 'graphics', 'characters')
         }
+
 
     # noinspection PyTypeChecker
     def setup(self, tmx_map, player_start_pos):
@@ -100,7 +102,7 @@ class Game:
                 if obj.properties['pos']  == player_start_pos:
                     self.player = Player(
                         pos = (obj.x, obj.y),
-                        frames = self.overwolrd_frames['characters']['player'],
+                        frames = self.overwolrd_frames['characters']['playerbis'],
                         groups = self.all_sprites)
                 
 
