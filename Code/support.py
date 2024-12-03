@@ -50,27 +50,37 @@ def import_tilemap(cols, rows, *path):
 	return frames
 
 def character_importer(rows, cols, *path, image_name):
-    full_path = join(*path, f"playerbis.png")
+    # Charger la sprite-sheet
+    full_path = join(*path, f"{image_name}")
     sprite_sheet = pygame.image.load(full_path).convert_alpha()
     width, height = sprite_sheet.get_width() // cols, sprite_sheet.get_height() // rows
 
+    # Définir les directions
     directions = ['down', 'left', 'right', 'up']  # Ordre des directions dans la sprite-sheet
-    frames = {direction: [] for direction in directions}
+    frames = {}
 
+    # Découper les frames et ajouter les frames "idle"
     for row, direction in enumerate(directions):
+        frames[direction] = []
         for col in range(cols):
             frame = sprite_sheet.subsurface((col * width, row * height, width, height))
             frames[direction].append(frame)
 
+        # Ajouter le frame "idle" correspondant
+        frames[f"{direction}_idle"] = [frames[direction][0]]
+
     return frames
 
+
 def all_character_import(*path):
-	new_dict = {}
-	for _, __, image_names in walk(join(*path)):
-		for image in image_names:
-			image_name = image.split('.')[0]
-			new_dict[image_name] = character_importer(4,4,*path, image_name=image_name)
-	return new_dict
+    new_dict = {}
+    for _, __, image_names in walk(join(*path)):
+        for image in image_names:
+            if image.endswith(".png"):  # Vérifie que c'est une image PNG
+                image_name = image.split('.')[0]
+                # Appel de la fonction character_importer
+                new_dict[image_name] = character_importer(4, 4, *path, image_name=image)
+    return new_dict
 
 def cote_importer(cols, rows, *path):
 	frame_dict = import_tilemap(cols, rows, *path)

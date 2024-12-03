@@ -1,4 +1,3 @@
-from Code.sprites import Animation
 from settings import *
 from pytmx.util_pygame import load_pygame
 from os.path import join
@@ -32,69 +31,15 @@ class Game:
 
     # noinspection PyTypeChecker
     def setup(self, tmx_map, player_start_pos):
-        #map1 :
-        '''
-        for x,y, surf in tmx_map.get_layer_by_name('Herbe1').tiles():
-            Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites)
-        for x,y, surf in tmx_map.get_layer_by_name('Sable1').tiles():
-            Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites)
-        for x,y, surf in tmx_map.get_layer_by_name('Chemin1').tiles():
-            Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites)
-        for x,y, surf in tmx_map.get_layer_by_name('Hautes herbe1').tiles():
-            Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites)
-        for x,y, surf in tmx_map.get_layer_by_name('Eau1').tiles():
-            Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites)
-        for x,y, surf in tmx_map.get_layer_by_name('Pont2').tiles():
-            Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites)
-        for x,y, surf in tmx_map.get_layer_by_name("ilot2/caillou sur l'eau").tiles():
-            Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites)
-        for x,y, surf in tmx_map.get_layer_by_name('Milieu arbre2').tiles():
-            Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites)
-        for x,y, surf in tmx_map.get_layer_by_name('caillou_mer2').tiles():
-            Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites)
-        for x,y, surf in tmx_map.get_layer_by_name('Montagne-etage1_2').tiles():
-            Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites)
-        for x,y, surf in tmx_map.get_layer_by_name('Montagne-etage2_3').tiles():
-            Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites)
-        for x,y, surf in tmx_map.get_layer_by_name('Buisson_montagne3').tiles():
-            Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites)
-        for x,y, surf in tmx_map.get_layer_by_name('Bâteau3').tiles():
-            Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites)
-        for x,y, surf in tmx_map.get_layer_by_name('Haut arbre3').tiles():
-            Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites)
-        for x,y, surf in tmx_map.get_layer_by_name('Maison3').tiles():
-            Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites)
-        for x,y, surf in tmx_map.get_layer_by_name('Montagne-etage3_4').tiles():
-            Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites)
-        for x,y, surf in tmx_map.get_layer_by_name('Escaliers/Caillou_montagne4').tiles():
-            Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites)
-        for x,y, surf in tmx_map.get_layer_by_name('Arbre_montagne4').tiles():
-            Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites)
-        '''
-
-        #map2 :
-        '''
-        for x, y, surf in tmx_map.get_layer_by_name('Terrain').tiles():
-            Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites)
-        for x, y, surf in tmx_map.get_layer_by_name('Terrain haut').tiles():
-            Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites)
-        for x, y, surf in tmx_map.get_layer_by_name('Terrain haut 2').tiles():
-            Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites)
+        # map 3 :
+        for layer in ['Terrain', 'Terrain haut']:
+            for x, y, surf in tmx_map.get_layer_by_name(layer).tiles():
+                Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites, WORLD_LAYERS['bg'])
 
         for obj in tmx_map.get_layer_by_name('Objets'):
             Sprite((obj.x, obj.y), obj.image, self.all_sprites)
 
-        for obj in tmx_map.get_layer_by_name('Entités'):
-            if obj.name == 'Player' and 'pos' in obj.properties and obj.properties['pos'] == player_start_pos:
-                self.player = Joueur((obj.x, obj.y), self.all_sprites)
-        '''
-
-        #map 3 :
-        for layer in ['Terrain', 'Terrain haut']:
-            for x, y, surf in tmx_map.get_layer_by_name(layer).tiles():
-                Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites)
-
-        for obj in tmx_map.get_layer_by_name('Objets'):
+        for obj in tmx_map.get_layer_by_name('Herbe_ware'):
             Sprite((obj.x, obj.y), obj.image, self.all_sprites)
 
         for obj in tmx_map.get_layer_by_name('Entités'):
@@ -102,19 +47,28 @@ class Game:
                 if obj.properties['pos']  == player_start_pos:
                     self.player = Player(
                         pos = (obj.x, obj.y),
-                        frames = self.overwolrd_frames['characters']['playerbis'],
-                        groups = self.all_sprites)
-                
+                        frames = self.overwolrd_frames['characters']['Player'],
+                        groups = self.all_sprites,
+                        regard = obj.properties['direction']
+                    )
+            else:
+                Dresseur(
+                    pos=(obj.x, obj.y),
+                    frames=self.overwolrd_frames['characters'][obj.properties['graphic']],
+                    groups=self.all_sprites,
+                    regard = obj.properties['direction']
+                )
+
 
         for obj in tmx_map.get_layer_by_name('water'):
             for x in range(int(obj.x), int(obj.x+obj.width), TILE_SIZE):
                 for y in range(int(obj.y), int(obj.y+obj.height), TILE_SIZE):
-                    Animation((x,y), self.overwolrd_frames['water'], self.all_sprites)
+                    Animation((x,y), self.overwolrd_frames['water'], self.all_sprites, WORLD_LAYERS['water'])
 
         for obj in tmx_map.get_layer_by_name('Côtes'):
             terrain = obj.properties['terrain']
             side = obj.properties['side']
-            Animation((obj.x, obj.y),self.overwolrd_frames['cote'][terrain][side], self.all_sprites)
+            Animation((obj.x, obj.y),self.overwolrd_frames['cote'][terrain][side], self.all_sprites, WORLD_LAYERS['bg'])
 
     def run(self):
         while True:
