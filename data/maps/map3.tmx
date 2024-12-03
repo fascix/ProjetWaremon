@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="86" height="86" tilewidth="64" tileheight="64" infinite="0" nextlayerid="10" nextobjectid="519">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="86" height="86" tilewidth="64" tileheight="64" infinite="0" nextlayerid="10" nextobjectid="521">
  <tileset firstgid="1" source="../../../../../../../../../Python-Monsters/data/tilesets/world.tsx"/>
  <tileset firstgid="211" source="../../../../../../../../../Python-Monsters/data/tilesets/objects.tsx"/>
  <tileset firstgid="242" source="../../../../../../../../../Python-Monsters/data/tilesets/Grass.tsx"/>
@@ -540,6 +540,8 @@
   <object id="336" gid="226" x="2730.04" y="3138.18" width="128" height="192"/>
   <object id="343" gid="228" x="2871.23" y="3190.55" width="64" height="128"/>
   <object id="334" gid="226" x="2149.4" y="2612.13" width="128" height="192"/>
+  <object id="519" gid="240" x="3839.21" y="5368.78" width="60" height="60"/>
+  <object id="520" gid="240" x="3902.79" y="5370.6" width="60" height="60"/>
  </objectgroup>
  <objectgroup id="5" name="water">
   <object id="417" x="0" y="3518.61" width="2883.37" height="1980.15"/>
@@ -816,20 +818,17 @@
    <properties>
     <property name="change_direction" type="bool" value="true"/>
     <property name="character_id" value="o6"/>
-    <property name="direction" value="right"/>
-    <property name="graphic" value="straw"/>
+    <property name="direction" value="down"/>
+    <property name="graphic" value="Daronne"/>
     <property name="radius" value="400"/>
    </properties>
-   <point/>
-  </object>
-  <object id="430" x="2926.49" y="4175.17">
    <point/>
   </object>
   <object id="444" name="Dresseur" x="1572.28" y="2040.1">
    <properties>
     <property name="change_direction" type="bool" value="true"/>
     <property name="character_id" value="o6"/>
-    <property name="direction" value="right"/>
+    <property name="direction" value="left"/>
     <property name="graphic" value="straw"/>
     <property name="radius" value="400"/>
    </properties>
@@ -840,7 +839,7 @@
     <property name="change_direction" type="bool" value="true"/>
     <property name="character_id" value="o6"/>
     <property name="direction" value="right"/>
-    <property name="graphic" value="straw"/>
+    <property name="graphic" value="young_girl"/>
     <property name="radius" value="400"/>
    </properties>
    <point/>
@@ -849,8 +848,8 @@
    <properties>
     <property name="change_direction" type="bool" value="true"/>
     <property name="character_id" value="o6"/>
-    <property name="direction" value="right"/>
-    <property name="graphic" value="straw"/>
+    <property name="direction" value="up"/>
+    <property name="graphic" value="blond"/>
     <property name="radius" value="400"/>
    </properties>
    <point/>
@@ -860,7 +859,7 @@
     <property name="change_direction" type="bool" value="true"/>
     <property name="character_id" value="o6"/>
     <property name="direction" value="right"/>
-    <property name="graphic" value="straw"/>
+    <property name="graphic" value="purple_girl"/>
     <property name="radius" value="400"/>
    </properties>
    <point/>
@@ -869,7 +868,7 @@
    <properties>
     <property name="change_direction" type="bool" value="true"/>
     <property name="character_id" value="o6"/>
-    <property name="direction" value="right"/>
+    <property name="direction" value="down"/>
     <property name="graphic" value="straw"/>
     <property name="radius" value="400"/>
    </properties>
@@ -879,7 +878,7 @@
    <properties>
     <property name="change_direction" type="bool" value="true"/>
     <property name="character_id" value="o6"/>
-    <property name="direction" value="right"/>
+    <property name="direction" value="down"/>
     <property name="graphic" value="straw"/>
     <property name="radius" value="400"/>
    </properties>
@@ -890,7 +889,7 @@
     <property name="change_direction" type="bool" value="true"/>
     <property name="character_id" value="o6"/>
     <property name="direction" value="right"/>
-    <property name="graphic" value="straw"/>
+    <property name="graphic" value="young_guy"/>
     <property name="radius" value="400"/>
    </properties>
    <point/>
@@ -899,8 +898,8 @@
    <properties>
     <property name="change_direction" type="bool" value="true"/>
     <property name="character_id" value="o6"/>
-    <property name="direction" value="right"/>
-    <property name="graphic" value="straw"/>
+    <property name="direction" value="left"/>
+    <property name="graphic" value="Dresseur"/>
     <property name="radius" value="400"/>
    </properties>
    <point/>
@@ -909,8 +908,8 @@
    <properties>
     <property name="change_direction" type="bool" value="true"/>
     <property name="character_id" value="o6"/>
-    <property name="direction" value="right"/>
-    <property name="graphic" value="straw"/>
+    <property name="direction" value="down"/>
+    <property name="graphic" value="blond"/>
     <property name="radius" value="400"/>
    </properties>
    <point/>
@@ -919,8 +918,8 @@
    <properties>
     <property name="change_direction" type="bool" value="true"/>
     <property name="character_id" value="o6"/>
-    <property name="direction" value="right"/>
-    <property name="graphic" value="straw"/>
+    <property name="direction" value="left"/>
+    <property name="graphic" value="hat_girl"/>
     <property name="radius" value="400"/>
    </properties>
    <point/>
@@ -929,18 +928,18 @@
    <properties>
     <property name="change_direction" type="bool" value="true"/>
     <property name="character_id" value="o6"/>
-    <property name="direction" value="right"/>
-    <property name="graphic" value="straw"/>
+    <property name="direction" value="down"/>
+    <property name="graphic" value="fire_boss"/>
     <property name="radius" value="400"/>
    </properties>
    <point/>
   </object>
-  <object id="455" name="Dresseur" x="4555.05" y="2616.95">
+  <object id="455" name="Dresseur" x="4692.76" y="2627.54">
    <properties>
     <property name="change_direction" type="bool" value="true"/>
     <property name="character_id" value="o6"/>
-    <property name="direction" value="right"/>
-    <property name="graphic" value="straw"/>
+    <property name="direction" value="left"/>
+    <property name="graphic" value="grass_boss"/>
     <property name="radius" value="400"/>
    </properties>
    <point/>
@@ -949,8 +948,8 @@
    <properties>
     <property name="change_direction" type="bool" value="true"/>
     <property name="character_id" value="o6"/>
-    <property name="direction" value="right"/>
-    <property name="graphic" value="straw"/>
+    <property name="direction" value="down"/>
+    <property name="graphic" value="blond"/>
     <property name="radius" value="400"/>
    </properties>
    <point/>
@@ -969,8 +968,8 @@
    <properties>
     <property name="change_direction" type="bool" value="true"/>
     <property name="character_id" value="o6"/>
-    <property name="direction" value="right"/>
-    <property name="graphic" value="straw"/>
+    <property name="direction" value="down"/>
+    <property name="graphic" value="young_guy"/>
     <property name="radius" value="400"/>
    </properties>
    <point/>
@@ -979,8 +978,8 @@
    <properties>
     <property name="change_direction" type="bool" value="true"/>
     <property name="character_id" value="o6"/>
-    <property name="direction" value="right"/>
-    <property name="graphic" value="straw"/>
+    <property name="direction" value="down"/>
+    <property name="graphic" value="blond"/>
     <property name="radius" value="400"/>
    </properties>
    <point/>
@@ -989,8 +988,8 @@
    <properties>
     <property name="change_direction" type="bool" value="true"/>
     <property name="character_id" value="o6"/>
-    <property name="direction" value="right"/>
-    <property name="graphic" value="straw"/>
+    <property name="direction" value="left"/>
+    <property name="graphic" value="Boss"/>
     <property name="radius" value="400"/>
    </properties>
    <point/>
@@ -999,8 +998,8 @@
    <properties>
     <property name="change_direction" type="bool" value="true"/>
     <property name="character_id" value="o6"/>
-    <property name="direction" value="right"/>
-    <property name="graphic" value="straw"/>
+    <property name="direction" value="down"/>
+    <property name="graphic" value="young_guy"/>
     <property name="radius" value="400"/>
    </properties>
    <point/>
