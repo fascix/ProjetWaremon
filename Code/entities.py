@@ -5,6 +5,9 @@ from settings import *
 class Entity(pygame.sprite.Sprite):
     def __init__(self, pos, frames, groups, regard):
         super().__init__(groups)
+        self.z = WORLD_LAYERS['main']
+
+
 
         #graphics
         self.frames_indice, self.frames = 0, frames
@@ -17,6 +20,8 @@ class Entity(pygame.sprite.Sprite):
         # sprite setup
         self.image = self.frames['down'][self.frames_indice]
         self.rect = self.image.get_frect(center = pos)
+        self.hitbox = self.rect.inflate(-self.rect.width / 2, -60)
+        self.y_sort = self.rect.centery
 
     def animation(self,dt):
         self.frames_indice += ANIMATION_SPEED * dt
@@ -36,9 +41,9 @@ class Dresseur(Entity):
         super().__init__(pos, frames,groups, regard)
 
 class Player(Entity):
-    def __init__(self, pos, frames, groups, regard):
+    def __init__(self, pos, frames, groups, regard, collision_sprites):
         super().__init__(pos, frames, groups, regard)
-
+        self.collision_sprites = collision_sprites
 
     def input(self):
         keys = pygame.key.get_pressed()
@@ -55,9 +60,32 @@ class Player(Entity):
 
 
     def mouvement(self, dt):
-        self.rect.center += self.direction * self.speed * dt
+        self.rect.centerx += self.direction.x * self.speed * dt
+        self.hitbox.centerx = self.rect.centerx
+        self.collisions('horizontale')
+
+        self.rect.centery += self.direction.y * self.speed * dt
+        self.hitbox.centery = self.rect.centery
+        self.collisions('verticale')
+
+    def collisions(self, axis):
+        for sprite in self.collision_sprites:
+            if sprite.hitbox.colliderect(self.hitbox):
+                if axis == 'verticale':
+                    if self.direction.y > 0:  # Déplacement vers le bas
+                        self.hitbox.bottom = sprite.hitbox.top
+                    if self.direction.y < 0:  # Déplacement vers le haut
+                        self.hitbox.top = sprite.hitbox.bottom
+                    self.rect.centery = self.hitbox.centery  # Synchronisation
+                else:
+                    if self.direction.x > 0:  # Déplacement à droite
+                        self.hitbox.right = sprite.hitbox.left
+                    if self.direction.x < 0:  # Déplacement à gauche
+                        self.hitbox.left = sprite.hitbox.right
+                    self.rect.centerx = self.hitbox.centerx  # Synchronisation
 
     def update(self, dt):
+        self.y_sort = self.rect.centery
         self.input()
         self.mouvement(dt)
         self.animation(dt)
