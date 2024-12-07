@@ -49,7 +49,7 @@ class Game:
             Animation((obj.x, obj.y),self.overwolrd_frames['cote'][terrain][side], self.all_sprites, WORLD_LAYERS['bg'])
 
         for obj in tmx_map.get_layer_by_name('Objets'):
-            Sprite((obj.x, obj.y), obj.image, (self.all_sprites, self.collision_sprites))
+            CollidableSprite((obj.x, obj.y), obj.image, (self.all_sprites, self.collision_sprites))
 
         for obj in tmx_map.get_layer_by_name('Herbe_ware'):
             Waremon_patch_Sprite((obj.x, obj.y), obj.image, self.all_sprites)

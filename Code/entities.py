@@ -15,7 +15,7 @@ class Entity(pygame.sprite.Sprite):
 
         # Mouvemenent :
         self.direction = vector()
-        self.speed = 2500
+        self.speed = 1000
 
         # sprite setup
         self.image = self.frames['down'][self.frames_indice]
@@ -71,18 +71,18 @@ class Player(Entity):
     def collisions(self, axis):
         for sprite in self.collision_sprites:
             if sprite.hitbox.colliderect(self.hitbox):
-                if axis == 'verticale':
-                    if self.direction.y > 0:  # Déplacement vers le bas
-                        self.hitbox.bottom = sprite.hitbox.top
-                    if self.direction.y < 0:  # Déplacement vers le haut
-                        self.hitbox.top = sprite.hitbox.bottom
-                    self.rect.centery = self.hitbox.centery  # Synchronisation
-                else:
+                if axis == 'horizontale':
                     if self.direction.x > 0:  # Déplacement à droite
                         self.hitbox.right = sprite.hitbox.left
                     if self.direction.x < 0:  # Déplacement à gauche
                         self.hitbox.left = sprite.hitbox.right
                     self.rect.centerx = self.hitbox.centerx  # Synchronisation
+                else:
+                    if self.direction.y > 0:  # Déplacement vers le bas
+                        self.hitbox.bottom = sprite.hitbox.top
+                    if self.direction.y < 0:  # Déplacement vers le haut
+                        self.hitbox.top = sprite.hitbox.bottom
+                    self.rect.centery = self.hitbox.centery  # Synchronisation
 
     def update(self, dt):
         self.y_sort = self.rect.centery

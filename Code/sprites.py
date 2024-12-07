@@ -14,6 +14,11 @@ class BorderSprite(Sprite):
         super().__init__(pos, surf, groups)
         self.hitbox = self.rect.copy()
 
+class CollidableSprite(Sprite):
+    def __init__(self, pos, surf, groups):
+        super().__init__(pos, surf, groups)
+        self.hitbox = self.rect.inflate(0, -self.rect.height * 0.4)
+
 class Waremon_patch_Sprite(Sprite):
     def __init__(self, pos, surf, groups):
         super().__init__(pos, surf, groups, WORLD_LAYERS['main'])
