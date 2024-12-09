@@ -15,7 +15,8 @@ class Entity(pygame.sprite.Sprite):
 
         # Mouvemenent :
         self.direction = vector()
-        self.speed = 1000
+        self.speed = 250
+        self.blocked = False
 
         # sprite setup
         self.image = self.frames['down'][self.frames_indice]
@@ -23,9 +24,14 @@ class Entity(pygame.sprite.Sprite):
         self.hitbox = self.rect.inflate(-self.rect.width / 2, -60)
         self.y_sort = self.rect.centery
 
-    def animation(self,dt):
-        self.frames_indice += ANIMATION_SPEED * dt
-        self.image = self.frames[self.get_etat()][int(self.frames_indice % len(self.frames[self.get_etat()]))]
+    def animation(self, dt):
+        print("Frames:", self.frames)  # Ajout pour débogage
+        print("État actuel:", self.get_etat())  # Affiche l'état pour lequel on recherche les frames
+        try:
+            self.image = self.frames[self.get_etat()][int(self.frames_indice % len(self.frames[self.get_etat()]))]
+        except KeyError as e:
+            print(f"Erreur: Clé {e} introuvable dans self.frames")
+            raise
 
     def get_etat(self):
         moving = bool(self.direction)
@@ -36,9 +42,30 @@ class Entity(pygame.sprite.Sprite):
                 self.regard = 'down' if self.direction.y > 0 else 'up'
         return f"{self.regard}{'' if moving else '_idle'}"
 
+    def change_regard(self, target_pos):
+        relation = vector(target_pos) - vector(self.rect.center)
+        if abs(relation.y) < 30:
+            self.regard = 'right' if relation.x > 0 else 'left'
+        else:
+            self.regard = 'down' if relation.y > 0 else 'up'
+
+    def block(self):
+        self.blocked = True
+
+    def unblock(self):
+        self.blocked = False
+        self.direction = vector(0,0)
+
 class Dresseur(Entity):
-    def __init__(self, pos, frames, groups, regard):
+    def __init__(self, pos, frames, groups, regard, character_data):
         super().__init__(pos, frames,groups, regard)
+        self.character_data = character_data
+
+    def get_dialogues(self):
+        return self.character_data['dialogues'][f'{vaincu}' if self.character_data['vaincu'] else 'défaut']
+
+    def update(self, dt):
+        self.animation(dt)
 
 class Player(Entity):
     def __init__(self, pos, frames, groups, regard, collision_sprites):
@@ -56,7 +83,7 @@ class Player(Entity):
             input_vector.x -= 1
         if keys[pygame.K_RIGHT]:
             input_vector.x += 1
-        self.direction = input_vector
+        self.direction = input_vector.normalize() if input_vector else input_vector
 
 
     def mouvement(self, dt):
@@ -86,6 +113,7 @@ class Player(Entity):
 
     def update(self, dt):
         self.y_sort = self.rect.centery
-        self.input()
-        self.mouvement(dt)
+        if not self.blocked:
+            self.input()
+            self.mouvement(dt)
         self.animation(dt)

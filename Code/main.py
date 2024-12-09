@@ -1,3 +1,4 @@
+from Code.game_data import TRAINER_DATA
 from Code.sprites import Waremon_patch_Sprite
 from settings import *
 from pytmx.util_pygame import load_pygame
@@ -6,6 +7,8 @@ from sprites import *
 from entities import *
 from group import AllSprites
 from support import *
+from dialogues import *
+from waremon_data import *
 
 class Game:
     def __init__(self):
@@ -17,6 +20,7 @@ class Game:
         #groupes :
         self.all_sprites = AllSprites()
         self.collision_sprites = pygame.sprite.Group()
+        self.dresseur_sprite = pygame.sprite.Group()
 
         self.import_assets()
         self.setup(self.tmx_maps['map3'], 'house')
@@ -30,6 +34,9 @@ class Game:
             'characters': all_character_import('..', 'graphics', 'characters')
         }
 
+        self.fonts = {
+            'dialogues': pygame.font.Font(join('..', 'graphics', 'fonts', 'PixeloidSans.ttf'), 30),
+        }
 
     # noinspection PyTypeChecker
     def setup(self, tmx_map, player_start_pos):
@@ -58,7 +65,7 @@ class Game:
             BorderSprite((obj.x, obj.y), pygame.Surface((obj.width, obj.height)), self.collision_sprites)
 
         for obj in tmx_map.get_layer_by_name('Entités'):
-            if obj.name == 'Player':
+            if obj.name == 'Player_bis':
                 if obj.properties['pos']  == player_start_pos:
                     self.player = Player(
                         pos = (obj.x, obj.y),
@@ -71,11 +78,22 @@ class Game:
                 Dresseur(
                     pos=(obj.x, obj.y),
                     frames=self.overwolrd_frames['characters'][obj.properties['graphic']],
-                    groups=( self.all_sprites, self.collision_sprites),
-                    regard = obj.properties['direction']
+                    groups=( self.all_sprites, self.collision_sprites, self.dresseur_sprite),
+                    regard = obj.properties['direction'],
+                    character_data = TRAINER_DATA[obj.properties['character_id']]
                 )
 
+    def input(self):
+        keys = pygame.key.get_just_pressed()
+        if keys[pygame.K_SPACE]:
+            for character in self.dresseur_sprite:
+                if check_connection(100, self.player, character):
+                    self.player.block()
+                    character.change_regard(self.player.rect.center)
+                    self.create_dialogues(character)
 
+    def create_dialogues(self, character):
+        DialoguesArbre(character, self.player, self.all_sprites, self.fonts['dialogues'])
 
     def run(self):
         while True:
@@ -90,6 +108,7 @@ class Game:
 
 
             #game logique
+            self.input()
             self.all_sprites.update(dt)
             self.display_surface.fill('Black')
             self.all_sprites.draw(self.player.rect.center)
