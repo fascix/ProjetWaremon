@@ -96,3 +96,13 @@ def cote_importer(cols, rows, *path):
 		for key, pos in sides.items():
 			new_dict[terrain][key] = [frame_dict[(pos[0] + index * 3, pos[1]+ row)] for row in range(0, rows, 3)]
 	return new_dict
+
+#fonction jeu
+def check_connection(radius, entité, cible, tolerance = 30):
+	relation = vector(cible.rect.center) - vector(entité.rect.center)
+	if relation.length() < radius:
+		if entité.regard == 'left' and relation.x <0 and abs(relation.y) < tolerance or\
+			entité.regard == 'right' and relation.x > 0 and abs(relation.y) < tolerance or \
+				entité.regard == 'up' and relation.y < 0 and abs(relation.x) < tolerance or \
+				entité.regard == 'down' and relation.y > 0 and abs(relation.x) < tolerance:
+				return True

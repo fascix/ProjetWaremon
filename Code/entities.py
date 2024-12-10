@@ -16,6 +16,7 @@ class Entity(pygame.sprite.Sprite):
         # Mouvemenent :
         self.direction = vector()
         self.speed = 1000
+        self.blocked = False
 
         # sprite setup
         self.image = self.frames['down'][self.frames_indice]
@@ -36,9 +37,19 @@ class Entity(pygame.sprite.Sprite):
                 self.regard = 'down' if self.direction.y > 0 else 'up'
         return f"{self.regard}{'' if moving else '_idle'}"
 
+
+
+    def block(self):
+        self.blocked = True
+        self.direction = vector(0,0)
+
+    def unblock(self):
+        self.blocked = False
+
 class Dresseur(Entity):
     def __init__(self, pos, frames, groups, regard):
         super().__init__(pos, frames,groups, regard)
+
 
 class Player(Entity):
     def __init__(self, pos, frames, groups, regard, collision_sprites):
@@ -56,7 +67,7 @@ class Player(Entity):
             input_vector.x -= 1
         if keys[pygame.K_RIGHT]:
             input_vector.x += 1
-        self.direction = input_vector
+        self.direction = input_vector.normalize() if input_vector else input_vector
 
 
     def mouvement(self, dt):
@@ -86,6 +97,7 @@ class Player(Entity):
 
     def update(self, dt):
         self.y_sort = self.rect.centery
-        self.input()
-        self.mouvement(dt)
+        if not self.blocked:
+            self.input()
+            self.mouvement(dt)
         self.animation(dt)
