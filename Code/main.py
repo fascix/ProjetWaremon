@@ -1,4 +1,4 @@
-from Code.sprites import Waremon_patch_Sprite
+from sprites import Waremon_patch_Sprite
 from settings import *
 from pytmx.util_pygame import load_pygame
 from os.path import join
@@ -17,6 +17,7 @@ class Game:
         #groupes :
         self.all_sprites = AllSprites()
         self.collision_sprites = pygame.sprite.Group()
+        self.character_sprites = pygame.sprite.Group()
 
         self.import_assets()
         self.setup(self.tmx_maps['map3'], 'house')
@@ -71,11 +72,19 @@ class Game:
                 Dresseur(
                     pos=(obj.x, obj.y),
                     frames=self.overwolrd_frames['characters'][obj.properties['graphic']],
-                    groups=( self.all_sprites, self.collision_sprites),
+                    groups=( self.all_sprites, self.collision_sprites,self.character_sprites),
                     regard = obj.properties['direction']
                 )
 
-
+    def input(self):
+        keys = pygame.key.get_just_pressed()
+        if keys[pygame.K_SPACE]:
+            for character in self.character_sprites:
+                if check_connection(100, self.player, character):
+                    self.player.block()
+                    
+                    #crée les dialogue
+                    print('dialog')
 
     def run(self):
         while True:
@@ -90,6 +99,7 @@ class Game:
 
 
             #game logique
+            self.input()
             self.all_sprites.update(dt)
             self.display_surface.fill('Black')
             self.all_sprites.draw(self.player.rect.center)
