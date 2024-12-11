@@ -7,14 +7,14 @@ TRAINER_DATA = {
                 'vaincu': False,
     },
     'Boss': {
-                'dialog': {'default': ['Je t attendais! ', ' Battons nous!'],
+                'dialog': {'default': ['Je t attendais! Mon frère... ', ' Battons nous!'],
                            'vaincu': ['ARGH!', 'Je te retrouv....']},
                 'directions': ['down'],
                 'look_around': True,
                 'vaincu': False,
     },
     'Daronne': {
-                'dialog':{'default': ['Bonjour, tu veux etre mon ami ?', 'Pardon... Je voulais dire ennemie!'],
+                'dialog':{'default': ['Bonjour, fils.', 'Voyons si tu es prêt à sauver le monde!'],
                           'vaincu': ['Bon courage pour la suite!']},
                 'directions': ['down'],
                 'look_around': True,
